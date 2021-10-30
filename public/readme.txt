@@ -1,0 +1,1 @@
+Bu yerda static fayllar saqlanadi!
