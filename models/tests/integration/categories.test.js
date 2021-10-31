@@ -2,6 +2,7 @@ const request = require('supertest');
 let server;
 const { Category } = require('../../../models/category');
 const { User } = require('../../../models/user');
+const mongoose = require('mongoose');
 
 describe('/api/category', () => {
     beforeEach(() => {
@@ -44,6 +45,19 @@ describe('/api/category', () => {
             expect(response.body).toHaveProperty('name', 'sun`iy idrok')
         });
     });
+    describe('GET /:id', () => {
+        it('should return a 404 if invalid id is given', async () => {
+            const response = await request(server).get('/api/category/123');
+            expect(response.status).toBe(404);
+        });
+    });
+    describe('GET /:id', () => {
+        it('should return a 404 if invalid id is given', async () => {
+            const categoryId = mongoose.Types.ObjectId();
+            const response = await request(server).get('/api/category/' + categoryId);
+            expect(response.status).toBe(200);
+        });
+    });
     describe('DELETE /:id', () => {
         it('should delete a category if valid id is given', async () => {
             const category = new Category({ name: 'sun`iy idrok' });
@@ -54,14 +68,6 @@ describe('/api/category', () => {
             expect(res.status).toBe(200);
         })
     });
-
-    describe('GET /:id', () => {
-        it('should return a 404 if invalid id is given', async () => {
-            const response = await request(server).get('/api/category/123');
-            expect(response.status).toBe(404);
-        });
-    });
-
     describe('PUT /:id', () => {
         beforeEach(async () => {
             token = new User().generateAuthToken();
