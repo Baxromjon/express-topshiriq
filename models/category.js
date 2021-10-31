@@ -14,7 +14,7 @@ const Category=mongoose.model('Category', categorySchema);
 
 function validateCategory(category){
     const categorySchema={
-        name:Joi.string().required().min(3)
+        name:Joi.string().required().min(3).max(50)
     }
     return Joi.validate(category, categorySchema);
     }
